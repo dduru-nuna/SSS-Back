@@ -47,12 +47,13 @@ public class ReviewServiceImpl implements ReviewService {
     private List<ReviewListResponse> getReviewList(List<Review> reviewList) {
         List<ReviewListResponse> responseList = new ArrayList<>();
         for (Review review : reviewList) {
+            List<ReviewImgResponse> reviewImgList = reviewImgRepository.findReviewImgById(review.getReviewId());
             responseList.add(
                     new ReviewListResponse(
                             review.getReviewId(),
                             review.getProduct().getProductId(),
                             review.getOrderInfo().getMember().getNickname(),
-                            review.getReviewImgs(),
+                            reviewImgList,
                             review.getRating(),
                             review.getContent(),
                             review.getRegDate(),
@@ -137,7 +138,9 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public List<ReviewListResponse> productReviewList(Long productId) {
+
         Product product = getProductById( productId);
+
         List<Review> reviewList = reviewRepository.findByProduct_ProductId(product.getProductId());
 
         return getReviewList(reviewList);

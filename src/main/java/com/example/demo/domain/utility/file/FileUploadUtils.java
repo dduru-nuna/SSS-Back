@@ -20,7 +20,6 @@ public class FileUploadUtils {
     public static void writeFile(MultipartFile multipartFile, String filePath) throws IOException {
         byte[] fileContent = multipartFile.getBytes();
 
-        // Write the file content to the specified file path
         try (OutputStream outputStream = new FileOutputStream(filePath)) {
             outputStream.write(fileContent);
         } catch (IOException e) {
